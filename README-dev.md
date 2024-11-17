@@ -59,11 +59,38 @@ npx @backstage/create-app@0.5.21
 # proceed (y) and use default name (backstage)
 ```
 
-## Run App Locally
+## Run App Locally (SQLite)
 ```bash
 # launch dev server
 cd backstage && yarn dev
 
 # open app
 http://localhost:3000
+```
+
+## Configure App For Database (PostgreSQL)
+```bash
+# install postgres client
+yarn --cwd packages/backend add pg
+
+# amend app config
+# backstage/app-config.yaml
+backend:
+  database:
+    # config options: https://node-postgres.com/apis/client
+    client: pg
+    connection:
+      host: ${POSTGRES_HOST}
+      port: ${POSTGRES_PORT}
+      user: ${POSTGRES_USER}
+      password: ${POSTGRES_PASSWORD}
+
+# will now need to export envars when running locally
+# but this configures everything nicely for app to be containerized
+
+# export envars when running locally
+EXPORT POSTGRES_HOST=...
+EXPORT POSTGRES_PORT=...
+EXPORT POSTGRES_USER=...
+EXPORT POSTGRES_PASSWORD=...
 ```
